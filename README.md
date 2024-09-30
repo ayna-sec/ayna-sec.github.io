@@ -29,16 +29,16 @@ Hi! I'm Angie Yuliana. I’m a cybersecurity specialist on a learning journey. A
 ```yaml
 ---
 title: "Welcome to Jekyll!"
-date: 2019-04-18T15:34:30-04:00
+show_date: true
+excerpt_separator: "<!--more-->" # use the separator on the post to create a manual excerpt
 categories:
-  - blog
+  - Blog
 tags:
   - Jekyll
   - update
 ---
 ```
 - To create a <ins>POST LINK</ins>, just add `link: url`:
-- To create a <ins>MANUAL EXCERPT</ins>, add `excerpt_separator: "<!--more-->"` and put the separator after the excerpt.
 - To update <ins>LAST EDITION TIME</ins>, add `last_modified_at: 2016-03-09T16:20:02-05:00`.
 
 ## Jekyll theme credits
