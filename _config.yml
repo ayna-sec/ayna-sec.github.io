@@ -20,8 +20,14 @@ description: >- # this means to ignore newlines until "baseurl:"
   I'll share my projects and lessons learned on this blog.
 #twitter_username: username
 github_username: ayna-sec
-minimal_mistakes_skin: neon
+minimal_mistakes_skin: dark # "default", "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 search: true
+
+# Added settings
+date_format: "%Y-%m-%d"
+enable_copy_code_button: true
+
+
 
 # Build settings
 markdown: kramdown
@@ -58,14 +64,14 @@ plugins:
 
 author:
   name   : "Angie Yuliana N.A."
-  avatar : "/assets/images/bio-photo.jpg"
+  avatar : "/assets/images/logo-edit.png"
   bio    : "I'm a cybersecurity specialist on a learning journey."
   links:
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "https://ayna-sec.github.io"
     - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin-square"
+      icon: "fa-brands fa-linkedin"
       url: "https://linkedin.com/in/angie-yuliana-naranjo"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
@@ -80,7 +86,7 @@ footer:
       icon: "fas fa-fw fa-link"
       url: "https://ayna-sec.github.io"
     - label: "Linkedin"
-      icon: "fab fa-fw fa-linkedin-square"
+      icon: "fa-brands fa-linkedin"
       url: "https://linkedin.com/in/angie-yuliana-naranjo"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
@@ -93,7 +99,9 @@ defaults:
       type: posts
     values:
       layout: single
+      toc: true
       author_profile: true
+      show_date: true
       read_time: true
       comments: true
       share: true
