@@ -1,10 +1,11 @@
 ---
 title: "Network Security: Perimeter vs Segmentation vs DMZ"
 date: 2024-09-30T19:29:02-05:00
+excerpt_separator: "<!--more-->"
 categories:
   - Blog
 tags:
-  - network security
+  - "network security"
   - notes
   - diagram
   - concepts
@@ -13,6 +14,7 @@ tags:
 # Perimeter vs Segmentation vs DMZ
 
 **Network security** is the protection of a network's integrity . There are many strategies for that. Some of these are the following:
+<!--more-->
 
 ## Perimeter security
 
