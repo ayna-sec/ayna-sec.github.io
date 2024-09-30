@@ -1,6 +1,8 @@
 # AYNA's Blog
 Hi! I'm Angie Yuliana. I’m a cybersecurity specialist on a learning journey. And on this blog I'll share my projects and lessons learned.
 
+🌐 [BLOG LINK](https://ayna-sec.github.io/)
+
 ## Cheatsheet for editing
 ### **Utility classes**:
 - <ins>TEXT ALIGNMENT</ins> (add below the paragraph): `{: .text-left}` / `{: .text-center}` / `{: .text-right}` / `{: .text-justify}` / `{: .text-nowrap}`
@@ -39,7 +41,7 @@ tags:
 - To create a <ins>MANUAL EXCERPT</ins>, add `excerpt_separator: "<!--more-->"` and put the separator after the excerpt.
 - To update <ins>LAST EDITION TIME</ins>, add `last_modified_at: 2016-03-09T16:20:02-05:00`.
 
-## Jekyll theme
+## Jekyll theme credits
 [**Minimal Mistakes's Jekyll Theme**](https://github.com/mmistakes/mm-github-pages-starter/)
 
 [Theme's Documentation](https://mmistakes.github.io/minimal-mistakes/docs/configuration/#skin)
