@@ -5,7 +5,7 @@ excerpt_separator: "<!--more-->"
 categories:
   - Blog
 tags:
-  - "network security"
+  - network-security
   - notes
   - diagram
   - concepts
