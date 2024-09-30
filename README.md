@@ -1,27 +1,47 @@
-# Minimal Mistakes remote theme starter
+# AYNA's Blog
+Hi! I'm Angie Yuliana. I’m a cybersecurity specialist on a learning journey. And on this blog I'll share my projects and lessons learned.
 
-Click [**Use this template**](https://github.com/mmistakes/mm-github-pages-starter/generate) button above for the quickest method of getting started with the [Minimal Mistakes Jekyll theme](https://github.com/mmistakes/minimal-mistakes).
-
-Contains basic configuration to get you a site with:
-
-- Sample posts.
-- Sample top navigation.
-- Sample author sidebar with social links.
-- Sample footer links.
-- Paginated home page.
-- Archive pages for posts grouped by year, category, and tag.
-- Sample about page.
-- Sample 404 page.
-- Site wide search.
-
-Replace sample content with your own and [configure as necessary](https://mmistakes.github.io/minimal-mistakes/docs/configuration/).
-
+## Cheatsheet for editing
+### **Utility classes**:
+- <ins>TEXT ALIGNMENT</ins> (add below the paragraph): `{: .text-left}` / `{: .text-center}` / `{: .text-right}` / `{: .text-justify}` / `{: .text-nowrap}`
+- <ins>IMAGE ALIGNMENT</ins>: `![image-center](/assets/images/filename.jpg){: .align-center}` / `(...) {: .align-left}` / `(...) {: .align-right}` / for full image `[image]\n {: .align-full}`
+- <ins>BUTTONS</ins>: `<a href="#" class="btn btn--primary">Link Text</a>`
+  - Default `[Text](#link){: .btn}`
+  - Primary `[Text](#link){: .btn .btn--primary}`
+  - Success `[Text](#link){: .btn .btn--success}`
+  - Warning `[Text](#link){: .btn .btn--warning}`
+  - Danger `[Text](#link){: .btn .btn--danger}`
+  - Info `[Text](#link){: .btn .btn--info}`
+  - Inverse `[Text](#link){: .btn .btn--inverse}`
+  - Light Outline `[Text](#link){: .btn .btn--light-outline}`
+- <ins>CALL ACTIONS</ins> for block of text
+  - Default `.notice`
+  - Primary	`.notice--primary`
+  - Info `.notice--info`
+  - Warning	`.notice--warning`
+  - Success	`.notice--success`
+  - Danger `.notice--danger`
+  - can also add the .notice class to a `<div>` element.
+ 
+### **Post's front matter**
+```yaml
 ---
+title: "Welcome to Jekyll!"
+date: 2019-04-18T15:34:30-04:00
+categories:
+  - blog
+tags:
+  - Jekyll
+  - update
+---
+```
+- To create a <ins>POST LINK</ins>, just add `link: url`:
+- To create a <ins>MANUAL EXCERPT</ins>, add `excerpt_separator: "<!--more-->"` and put the separator after the excerpt.
+- To update <ins>LAST EDITION TIME</ins>, add `last_modified_at: 2016-03-09T16:20:02-05:00`.
 
-## Troubleshooting
+## Jekyll theme
+[**Minimal Mistakes's Jekyll Theme**](https://github.com/mmistakes/mm-github-pages-starter/)
 
-If you have a question about using Jekyll, start a discussion on the [Jekyll Forum](https://talk.jekyllrb.com/) or [StackOverflow](https://stackoverflow.com/questions/tagged/jekyll). Other resources:
+[Theme's Documentation](https://mmistakes.github.io/minimal-mistakes/docs/configuration/#skin)
 
-- [Ruby 101](https://jekyllrb.com/docs/ruby-101/)
-- [Setting up a Jekyll site with GitHub Pages](https://jekyllrb.com/docs/github-pages/)
-- [Configuring GitHub Metadata](https://github.com/jekyll/github-metadata/blob/master/docs/configuration.md#configuration) to work properly when developing locally and avoid `No GitHub API authentication could be found. Some fields may be missing or have incorrect data.` warnings.
+[Icons](https://fontawesome.com/)
