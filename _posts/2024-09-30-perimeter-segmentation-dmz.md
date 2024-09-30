@@ -1,6 +1,6 @@
 ---
 title: "Network Security: Perimeter vs Segmentation vs DMZ"
-last_modified_at: 2016-03-09T16:20:02-05:00
+date: 2024-09-30T19:29:02-05:00
 categories:
   - Blog
 tags:
