@@ -3,6 +3,8 @@ permalink: /about/
 title: "About"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+Hello! I'm Angie Yuliana Naranjo Arias, an empathic and adaptable person with a passion for learning, especially in the field of cybersecurity. My goal is to become an L1 SOC Analyst, and I am continuously improving my skills to meet the challenges of the field.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+My experience in various industries has allowed me to develop meticulous attention to detail and the ability to work under pressure. I have a strong background in quality management and problem solving. I am motivated to contribute to my fullest to the cybersecurity field and continue to expand my knowledge by learning from the best for a safer cyberspace.
+
+Contact me through [Linkedin](https://www.linkedin/in/angie-yuliana-naranjo){: .btn .btn--info} or [email](mailto:angieyuliana.na@gmail.com){: .btn .btn--info}.
