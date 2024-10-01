@@ -106,5 +106,5 @@ Run:
 $BLUEsudo systemctl start cassandra elasticsearch thehive
 sudo systemctl enable cassandra elasticsearch thehive
 
-You'll be able to access TheHive on http://YOUR_SERVER_ADDRESS:9000/
+$GREEN[!] You'll be able to access TheHive on http://YOUR_SERVER_ADDRESS:9000/
 $NORMAL"
