@@ -1,4 +1,5 @@
 #!/bin/bash
+# AYNA-SEC https://github.com/ayna-sec
 # This script will install all the necessary components for TheHive
 
 GREEN=`echo -e "\033[32m"`
@@ -34,7 +35,7 @@ sudo apt update
 sudo apt install java-common java-11-amazon-corretto-jdk
 echo JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto" | sudo tee -a /etc/environment
 export JAVA_HOME="/usr/lib/jvm/java-11-amazon-corretto"
-java -version
+echo -e "$BLUEJava version is: $(java -version)$NORMAL"
 
 # Apache Cassandra installation
 echo "
@@ -48,15 +49,16 @@ sudo apt update
 sudo apt install cassandra
 
 echo "$GREEN[!] Data is stored in /var/lib/cassandra. Ensure appropiate permissions are set."
-echo -e "[!] Don't forget to adjust the Cassandra configuration, before starting the service, in /etc/cassandra/cassandra.yaml.
+echo -e "$BLUE[!] Don't forget to adjust the Cassandra configuration, before starting the service, in /etc/cassandra/cassandra.yaml.
 Edit...
-cluster_name
-listen_address # address for nodes
-rpc_address # address for clients
-seed_provider
-directories
-$NORMAL
-"
++--------------------------------------+
+| cluster_name                         |
+| listen_address # address for nodes   |
+| rpc_address # address for clients    |
+| seed_provider                        |
+| directories                          |
++--------------------------------------+
+$NORMAL"
 
 # Elasticsearch installation
 echo "
@@ -72,14 +74,15 @@ sudo apt install elasticsearch
 
 echo -e "$BLUE[!] Don't forget to adjust the Elasticsearch configuration, before starting the service, in /etc/elasticsearch/elasticsearch.yml
 Edit...
-cluster_name
-http.host
-transport.host
-thread_pool.search.queue_size
-path.logs
-path.data
-$NORMAL
-"
++---------------------------------------+
+| cluster_name                          |
+| http.host                             |
+| transport.host                        |
+| thread_pool.search.queue_size         |
+| path.logs                             |
+| path.data                             |
++---------------------------------------+
+$NORMAL"
 
 # File storage set up
 echo "
@@ -88,7 +91,7 @@ $GREEN> File storage set up$NORMAL
 
 sudo mkdir -p /opt/thp/thehive/files
 echo "$BLUE[!] Directory created in /opt/thp/thehive/file$NORMAL"
-chown -R $(whoami):$($whoami) /opt/thp/thehive/files
+chown -R $(whoami):$(whoami) /opt/thp/thehive/files
 
 # TheHive installation
 echo "
