@@ -142,12 +142,11 @@ sudo chmod +x install-thehive.sh
 sudo ./install-thehive.sh
 ```
 
-<div class=.notice--info>
-🧭 The <b>next stages</b> of the project will be:
-- Configuration of Wazuh and TheHive.
-- Telemetry configuration.
-- Setting up SOAR and integrating components.
-</div>
+> 🧭 The <b>next stages</b> of the project will be:
+> - Configuration of Wazuh and TheHive.
+> - Telemetry configuration.
+> - Setting up SOAR and integrating components.
+{: .notice--info}
 
 
 > 🗃️ To see all the posts on the topic, check the [SOC automation project](https://ayna-sec.github.io/tags/#soc-automation-project) tag.
