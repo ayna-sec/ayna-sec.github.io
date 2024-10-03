@@ -42,12 +42,17 @@ All the machines should be set up on this network so they can communicate with e
 For the virtual machine, we'll create a Windows 10 ISO, which can be done through [this official tool](https://www.microsoft.com/en-us/software-download/windows10).
 1. Create a new virtual machine with the created ISO image. Associate the machine with the `SOC-NET` network.
 2. Start the machine and proceed with the installation.
-3. Set up a static IP.
-	- Check the machine's IP and network:
+3. Check the machine's IP and network.
+```powershell
+ipconfig
+```
 ![Windows 10's network configuration](/assets/images/Windows-10s-network-configuration.png)
-	- To change the network addresses, go to: `Network & Internet Settings > Change adapter options > Right click on the machine's [Ethernet connection] > Properties > Select option [Internet Protocol Version 4 (TCP/IPv4)] > Properties > Select option [Use the following IP address]`. Now we can add the desired settings. I chose to keep the initial assigned IP, netmask `/24`, default gateway, and preferred DNS server 8.8.8.8.
+
+4. To change the network addresses, go to: `Network & Internet Settings > Change adapter options > Right click on the machine's [Ethernet connection] > Properties > Select option [Internet Protocol Version 4 (TCP/IPv4)] > Properties > Select option [Use the following IP address]`. Now we can add the desired settings. I chose to keep the initial assigned IP, netmask `/24`, default gateway, and preferred DNS server 8.8.8.8.
+
 ![Windows 10's static addresses](/assets/images/Windows-10s-static-addresses.png)
-4. Set up Sysmon.
+
+5. Set up Sysmon.
 	- Sysmon is a telemetry tool part of the Sysinternals Windows Suite. By integrating it with the Wazuh agent, we can analyse the logs it generates and detect malicious or anomalous activity.
 	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 	- We need a configuration file for Sysmon. We'll be using [this one](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml). Download it into your Windows 10 Client. Extract the Sysmon executables into a Sysmon folder, and move the configuration file inside.
@@ -79,11 +84,16 @@ sudo systemclt enable apache2
 sudo systemctl status apache2
 ```
 ![Apache2 service status](/assets/images/web-server-apache2-status.png)
+
 5. Now we can access the basic website on `http://192.168.200.129:80`. The output should look like this:
+
 ![Web server check](/assets/images/web-server-check.png)
+
 ## 2.3. Wazuh Server - set up
 As Wazuh itself defines it, *"Wazuh is a security platform that provides unified XDR and SIEM protections for endpoints and cloud workloads"*. For the installation of the server machine, we need to meet some requirements.
+
 ![Wazuh Server requirements](/assets/images/wazuh-requirements.png)
+
 For this project, we will install an Ubuntu 22.04 server with 4 vCPU, 8GiB RAM and 50 GB on disk memory. 
 1. If we didn't set up the static IP during installation, we can edit the network configuration file.
 ```sh
@@ -122,16 +132,22 @@ sudo tar -O -xvf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt
 ## 2.4. TheHive - installation
 TheHive is a Security Incident Response Platform, and we'll install this on a different Ubuntu 22.04 Server.
 1. Set up a static IP.
+
 ![The Hive static IP configuration](/assets/images/thehive-static-ip.png)
+
 2. We'll follow the basic [TheHive installation guide](https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/) As the installation process requires many steps, I've created a script with all the commands to install the dependencies, Java, Apache Cassandra, Elasticsearch and finally TheHive. The script is stored here: [install-thehive.sh](/scripts/install-thehive.sh). You can download it and execute it:
-```sh
+```shell
 wget https://raw.githubusercontent.com/ayna-sec/ayna-sec.github.io/refs/heads/master/scripts/install-thehive.sh
 sudo chmod +x install-thehive.sh
 sudo ./install-thehive.sh
 ```
 
-# 3. Configuration of servers and endpoints
+<div class=.notice--info>
+🧭 The <b>next stages</b> of the project will be:
+- Configuration of Wazuh and TheHive.
+- Telemetry configuration.
+- Setting up SOAR and integrating components.
+</div>
 
-# 4. Telemetry
 
-# 5. Setting up SOAR and integrating components
+> 🗃️ To see all the posts on the topic, check the [SOC automation project](https://ayna-sec.github.io/tags/#soc-automation-project) tag.
