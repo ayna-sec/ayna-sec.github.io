@@ -23,43 +23,44 @@ tags:
 
 List of components that will be implemented:
 
-1. A **Windows 10 Client** with a Wazuh Agent that will send its security events and receive the active responses.
+1) A **Windows 10 Client** with a Wazuh Agent that will send its security events and receive the active responses.
 	- [Windows 10 ISO image creator](https://www.microsoft.com/en-us/software-download/windows10)
-2. **Sysmon** integration for Windows monitoring.
+2) **Sysmon** integration for Windows monitoring.
 	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 	- [sysmon.conf file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
-3. A **web server** in an Ubuntu 22.04 Server VM.
+3) A **web server** in an Ubuntu 22.04 Server VM.
 	- [Ubuntu 22.04 Download](https://www.releases.ubuntu.com/22.04/)
-4. A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
-5. Another Ubuntu 22.04 Server that will host **TheHive** for case management.
-6. **Shuffle.io** for workflow automation.
+4) A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
+5) Another Ubuntu 22.04 Server that will host **TheHive** for case management.
+6) **Shuffle.io** for workflow automation.
 
 ![SOC Automation Project workflow](/assets/images/SOC-automation-project-workflow.png)
 
 # 2. Preparation of the components
 ## 2.1. Network configuration
 In VMWare, we need to configure a virtual network for our SOC environment.
-1. Access the Virtual Network Editor: `Edit > Virtual Network Editor`.
-2. Configure a NAT network in an specific subnet:`192.168.200.0/24`.
-3. Give it a name: `SOC-NET`.
+
+1) Access the Virtual Network Editor: `Edit > Virtual Network Editor`.
+2) Configure a NAT network in an specific subnet:`192.168.200.0/24`.
+3) Give it a name: `SOC-NET`.
 All the machines should be set up on this network so they can communicate with each other.
 
 ## 2.2. Windows 10 Client - set up
 For the virtual machine, we'll create a Windows 10 ISO, which can be done through [this official tool](https://www.microsoft.com/en-us/software-download/windows10).
 
-1. Create a new virtual machine with the created ISO image. Associate the machine with the `SOC-NET` network.
-2. Start the machine and proceed with the installation.
-3. Check the machine's IP and network.
+1) Create a new virtual machine with the created ISO image. Associate the machine with the `SOC-NET` network.
+2) Start the machine and proceed with the installation.
+3) Check the machine's IP and network.
 ```powershell
 ipconfig
 ```
 ![Windows 10's network configuration](/assets/images/Windows-10s-network-configuration.png)
 
-4. To change the network addresses, go to: `Network & Internet Settings > Change adapter options > Right click on the machine's [Ethernet connection] > Properties > Select option [Internet Protocol Version 4 (TCP/IPv4)] > Properties > Select option [Use the following IP address]`. Now we can add the desired settings. I chose to keep the initial assigned IP, netmask `/24`, default gateway, and preferred DNS server 8.8.8.8.
+4) To change the network addresses, go to: `Network & Internet Settings > Change adapter options > Right click on the machine's [Ethernet connection] > Properties > Select option [Internet Protocol Version 4 (TCP/IPv4)] > Properties > Select option [Use the following IP address]`. Now we can add the desired settings. I chose to keep the initial assigned IP, netmask `/24`, default gateway, and preferred DNS server 8.8.8.8.
 
 ![Windows 10's static addresses](/assets/images/Windows-10s-static-addresses.png)
 
-5. Set up Sysmon.
+5) Set up Sysmon.
 	- Sysmon is a telemetry tool part of the Sysinternals Windows Suite. By integrating it with the Wazuh agent, we can analyse the logs it generates and detect malicious or anomalous activity.
 	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 	- We need a configuration file for Sysmon. We'll be using [this one](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml). Download it into your Windows 10 Client. Extract the Sysmon executables into a Sysmon folder, and move the configuration file inside.
@@ -80,27 +81,28 @@ sudo netplan try
 sudo netplan apply
 ```
 Once installed, to configure a very basic web server, we need to follow these steps:
-1. Update and upgrade Ubuntu.
+
+1) Update and upgrade Ubuntu.
 ```sh
 sudo apt update && sudo apt upgrade -y
 ```
-2. Install Apache for the web service.
+2) Install Apache for the web service.
 ```sh
 sudo apt install apache2 -y
 ```
-3. Start the Apache service and enable start on boot.
+3) Start the Apache service and enable start on boot.
 ```sh
 sudo systemctl start apache2
 sudo systemclt enable apache2
 ```
-4. Check the Apache service status. The output should indicate it's enabled and active.
+4) Check the Apache service status. The output should indicate it's enabled and active.
 ```sh
 sudo systemctl status apache2
 ```
 
 ![Apache2 service status](/assets/images/web-server-apache2-status.png)
 
-5. Now we can access the basic website on `http://192.168.200.128:80`. The output should look like this:
+5) Now we can access the basic website on `http://192.168.200.128:80`. The output should look like this:
 
 ![Web server check](/assets/images/web-server-check.png)
 
@@ -111,12 +113,12 @@ As Wazuh itself defines it, *"Wazuh is a security platform that provides unified
 
 For this project, we will install an Ubuntu 22.04 server with 4 vCPU, 8GiB RAM and 50 GB on disk memory. 
 
-1. If we didn't set up the static IP during installation, we can edit the network configuration file.
+1) If we didn't set up the static IP during installation, we can edit the network configuration file.
 ```sh
 cd /etc/netplan/
 sudo nano *.yaml # the name of the file may vary (e.g. 00-installer-config.yaml)
 ```
-2. Define the static IP, default gateway and DNS servers.
+2) Define the static IP, default gateway and DNS servers.
 ```shell
 # Verbose network set up
 network:
@@ -135,20 +137,20 @@ network:
           - 8.8.8.8
           - 8.8.4.4
 ```
-3. Download and run the Wazuh installation assistant.
+3) Download and run the Wazuh installation assistant.
 ```shell
 curl -sO https://packages.wazuh.com/4.9/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 ```
-4. Check and save the Wazuh credentials displayed on the last lines of the installation process. Otherwise, extract the `wazuh-passwords.txt` file from `wazuh-install-files.tar`.
+4) Check and save the Wazuh credentials displayed on the last lines of the installation process. Otherwise, extract the `wazuh-passwords.txt` file from `wazuh-install-files.tar`.
 ```sh
 sudo tar -O -xvf wazuh-install-files.tar wazuh-install-files/wazuh-passwords.txt > wazuh-credentials.txt
 ```
-5. We can access the Wazuh Dashboard on `https://<wazuh-ip>:443` with the user `admin` and the generated credentials.
+5) We can access the Wazuh Dashboard on `https://<wazuh-ip>:443` with the user `admin` and the generated credentials.
 
 ## 2.4. TheHive - installation
 TheHive is a Security Incident Response Platform, and we'll install this on a different Ubuntu 22.04 Server.
 
-> New notes added on 09/10/2024
+> PART 2️⃣ - New notes published on 12/10/2024
 {: .notice--info}
 
 > ⚠ Corrigendum
@@ -167,15 +169,15 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 > > **The corrected process is described next**:
 {: .notice--warning}
 
-![thehive requirements](/assets/images/thehive-requirements)
+![thehive requirements](/assets/images/thehive-requirements.png)
 
-1. Install an Ubuntu 22.04 VM considering the requirementes (4 cores and 16 GB of RAM):
+1) Install an Ubuntu 22.04 VM considering the requirementes (4 cores and 16 GB of RAM):
 	- *I deployed a new VM in VMWare with the hardware specifics and 45 GB of disk memory, just in case it needs that space.*
 	- *I also chose the graphical version because 16 GB of RAM was already a big stretch for my local machine, so I would use the browser inside the VM.*
 	- *During the Ubuntu installation I chose minimal install, so it would take less space.* 
 	- *I had everything closed on my local machine hoping it wouldn't break*.
 
-2. Set up a static IP. 
+2) Set up a static IP. 
 
 ![The Hive static IP configuration](/assets/images/thehive-static-ip.png)
 
@@ -184,21 +186,21 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 sudo netplan try
 sudo netplan apply
 ```
-3. Use the [automated installation script](https://docs.strangebee.com/thehive/installation/automated-installation-script/) made by TheHive.
+3) Use the [automated installation script](https://docs.strangebee.com/thehive/installation/automated-installation-script/) made by TheHive.
 ```sh
 wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; sudo -v; bash /tmp/install.sh
 ```
-4. Enter option `2`, that is `2) Install TheHive`.
-5. If the installation and configuration is successful, the output should look like this:
+4) Enter option `2`, that is `2) Install TheHive`.
+5) If the installation and configuration is successful, the output should look like this:
 
 ![thehive installed](/assets/images/install-thehive.png)
 
-6. Now we can access TheHive in our browser through `http://<thehive-ip>:9000` using the default credentials (user `admin`, password `secret`).
+6) Now we can access TheHive in our browser through `http://<thehive-ip>:9000` using the default credentials (user `admin`, password `secret`).
 
 ![thehive login page](/assets/images/thehive-login.png)
 
 - We can change the password in `http://<ip>:9000/account/password`.
-7. For direct access from our local machine, we need to configure port forwarding in VMWare. 
+7) For direct access from our local machine, we need to configure port forwarding in VMWare. 
 	- Access `Virtual Network Editor` > Click on `Change Settings` > Select the NAT network (I called it `SOC-NET`) > `NAT Settings` > Add port forwarding for the VM IP and TheHive's port.
 	- Then, we can access from our local machine to `http://<thehive-private-ip>:9000`.
 
@@ -207,18 +209,19 @@ wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; s
 # 3. Wazuh Agents configuration
 After we've accessed Wazuh WUI (instructions on Section 2.3, step 4-5), we can add the Wazuh agents to our endpoints.
 
-1. Create Endpoint Groups to classify the different types.
+1) Create Endpoint Groups to classify the different types.
 - Go to the sidebar menu and navigate to Endpoint Groups.
 
 ![wazuh endpoint groups](/assets/images/wazuh-groups.png)
 
 - `Add new group`, for instance: `servers`, `clients`, `windows`, `linux`.
-2. Navigate to Endpoints Summary and `deploy new agent`.
-3. Add the Windows 10 client machine.
+2) Navigate to Endpoints Summary and `deploy new agent`.
+3) Add the Windows 10 client machine.
 	- Make sure the VM is turned on.
 	- In the deployment page: select `MSI 32/64 bits`, enter the Wazuh server address, add a unique agent name for the Windows machine, select the corresponding groups, copy and paste the assembled command on step 4 into Windows PowerShell ran with administrator privileges.
 
 > ℹ️ Clipboard function in VMWare
+> 
 > If you can't copy and paste from/into a VM, click on `VM` in the menu > select `Install VMWare Tools...` > a notification should show up asking to do something with the `D:` drive, click on it > start the `set up` > install VMWare Tools.
 {: .notice--primary}
 
@@ -229,7 +232,7 @@ NET START WazuhSvc
 
 ![W10 agent install](/assets/images/wazuh-agent-w10.png)
 
-4. Repeat the process with the Ubuntu Web Server, but in this case, select `DEB amd64`.
+4) Repeat the process with the Ubuntu Web Server, but in this case, select `DEB amd64`.
 
 ![](/assets/images/wazuh-agent-web.png)
 
