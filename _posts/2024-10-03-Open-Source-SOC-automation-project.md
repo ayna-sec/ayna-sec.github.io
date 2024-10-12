@@ -24,15 +24,20 @@ tags:
 List of components that will be implemented:
 
 1) A **Windows 10 Client** with a Wazuh Agent that will send its security events and receive the active responses.
-	- [Windows 10 ISO image creator](https://www.microsoft.com/en-us/software-download/windows10)
-2) **Sysmon** integration for Windows monitoring.
-	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
-	- [sysmon.conf file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
-3) A **web server** in an Ubuntu 22.04 Server VM.
-	- [Ubuntu 22.04 Download](https://www.releases.ubuntu.com/22.04/)
-4) A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
-5) Another Ubuntu 22.04 Server that will host **TheHive** for case management.
-6) **Shuffle.io** for workflow automation.
+- [Windows 10 ISO image creator](https://www.microsoft.com/en-us/software-download/windows10)
+
+3) **Sysmon** integration for Windows monitoring.
+- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
+- [sysmon.conf file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
+
+4) A **web server** in an Ubuntu 22.04 Server VM.
+- [Ubuntu 22.04 Download](https://www.releases.ubuntu.com/22.04/)
+
+5) A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
+
+6) Another Ubuntu 22.04 Server that will host **TheHive** for case management.
+
+7) **Shuffle.io** for workflow automation.
 
 ![SOC Automation Project workflow](/assets/images/SOC-automation-project-workflow.png)
 
@@ -41,15 +46,20 @@ List of components that will be implemented:
 In VMWare, we need to configure a virtual network for our SOC environment.
 
 1) Access the Virtual Network Editor: `Edit > Virtual Network Editor`.
+
 2) Configure a NAT network in an specific subnet:`192.168.200.0/24`.
+
 3) Give it a name: `SOC-NET`.
+
 All the machines should be set up on this network so they can communicate with each other.
 
 ## 2.2. Windows 10 Client - set up
 For the virtual machine, we'll create a Windows 10 ISO, which can be done through [this official tool](https://www.microsoft.com/en-us/software-download/windows10).
 
 1) Create a new virtual machine with the created ISO image. Associate the machine with the `SOC-NET` network.
+
 2) Start the machine and proceed with the installation.
+
 3) Check the machine's IP and network.
 ```powershell
 ipconfig
@@ -172,10 +182,10 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 ![thehive requirements](/assets/images/thehive-requirements.png)
 
 1) Install an Ubuntu 22.04 VM considering the requirementes (4 cores and 16 GB of RAM):
-	- *I deployed a new VM in VMWare with the hardware specifics and 45 GB of disk memory, just in case it needs that space.*
-	- *I also chose the graphical version because 16 GB of RAM was already a big stretch for my local machine, so I would use the browser inside the VM.*
-	- *During the Ubuntu installation I chose minimal install, so it would take less space.* 
-	- *I had everything closed on my local machine hoping it wouldn't break*.
+- *I deployed a new VM in VMWare with the hardware specifics and 45 GB of disk memory, just in case it needs that space.*
+- *I also chose the graphical version because 16 GB of RAM was already a big stretch for my local machine, so I would use the browser inside the VM.*
+- *During the Ubuntu installation I chose minimal install, so it would take less space.* 
+- *I had everything closed on my local machine hoping it wouldn't break*.
 
 2) Set up a static IP. 
 
@@ -190,7 +200,9 @@ sudo netplan apply
 ```sh
 wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; sudo -v; bash /tmp/install.sh
 ```
+
 4) Enter option `2`, that is `2) Install TheHive`.
+
 5) If the installation and configuration is successful, the output should look like this:
 
 ![thehive installed](/assets/images/install-thehive.png)
@@ -200,9 +212,10 @@ wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; s
 ![thehive login page](/assets/images/thehive-login.png)
 
 - We can change the password in `http://<ip>:9000/account/password`.
+
 7) For direct access from our local machine, we need to configure port forwarding in VMWare. 
-	- Access `Virtual Network Editor` > Click on `Change Settings` > Select the NAT network (I called it `SOC-NET`) > `NAT Settings` > Add port forwarding for the VM IP and TheHive's port.
-	- Then, we can access from our local machine to `http://<thehive-private-ip>:9000`.
+- Access `Virtual Network Editor` > Click on `Change Settings` > Select the NAT network (I called it `SOC-NET`) > `NAT Settings` > Add port forwarding for the VM IP and TheHive's port.
+- Then, we can access from our local machine to `http://<thehive-private-ip>:9000`.
 
 ![](/assets/images/port-forwarding-9000-thehive.png)
 
@@ -215,10 +228,12 @@ After we've accessed Wazuh WUI (instructions on Section 2.3, step 4-5), we can a
 ![wazuh endpoint groups](/assets/images/wazuh-groups.png)
 
 - `Add new group`, for instance: `servers`, `clients`, `windows`, `linux`.
+
 2) Navigate to Endpoints Summary and `deploy new agent`.
+
 3) Add the Windows 10 client machine.
-	- Make sure the VM is turned on.
-	- In the deployment page: select `MSI 32/64 bits`, enter the Wazuh server address, add a unique agent name for the Windows machine, select the corresponding groups, copy and paste the assembled command on step 4 into Windows PowerShell ran with administrator privileges.
+- Make sure the VM is turned on.
+- In the deployment page: select `MSI 32/64 bits`, enter the Wazuh server address, add a unique agent name for the Windows machine, select the corresponding groups, copy and paste the assembled command on step 4 into Windows PowerShell ran with administrator privileges.
 
 > ℹ️ Clipboard function in VMWare
 > 
