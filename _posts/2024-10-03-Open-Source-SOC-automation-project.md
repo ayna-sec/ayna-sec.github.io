@@ -71,14 +71,14 @@ ipconfig
 ![Windows 10's static addresses](/assets/images/Windows-10s-static-addresses.png)
 
 5) Set up Sysmon.
-	- Sysmon is a telemetry tool part of the Sysinternals Windows Suite. By integrating it with the Wazuh agent, we can analyse the logs it generates and detect malicious or anomalous activity.
-	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
-	- We need a configuration file for Sysmon. We'll be using [this one](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml). Download it into your Windows 10 Client. Extract the Sysmon executables into a Sysmon folder, and move the configuration file inside.
-	- In PowerShell with administrative privileges, install Sysmon using the configuration file (make sure you're located in the Sysmon folder).
-	```powershell
-	.\Sysmon64.exe -i sysmonconfig.xml
-	```
-	- Once installed, we can find the Sysmon logs in: `Event Viewer > Application and Service Logs > Sysmon > Operational`.
+- Sysmon is a telemetry tool part of the Sysinternals Windows Suite. By integrating it with the Wazuh agent, we can analyse the logs it generates and detect malicious or anomalous activity.
+- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
+- We need a configuration file for Sysmon. We'll be using [this one](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml). Download it into your Windows 10 Client. Extract the Sysmon executables into a Sysmon folder, and move the configuration file inside.
+- In PowerShell with administrative privileges, install Sysmon using the configuration file (make sure you're located in the Sysmon folder).
+```powershell
+.\Sysmon64.exe -i sysmonconfig.xml
+```
+- Once installed, we can find the Sysmon logs in: `Event Viewer > Application and Service Logs > Sysmon > Operational`.
 
 ## 2.2. Web Server - set up
 For the web server we'll install an [Ubuntu 22.04 server](https://www.releases.ubuntu.com/22.04/). We can set up the network during installation or after, modifying the `/etc/netplan/*.yml` file.
@@ -196,6 +196,7 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 sudo netplan try
 sudo netplan apply
 ```
+
 3) Use the [automated installation script](https://docs.strangebee.com/thehive/installation/automated-installation-script/) made by TheHive.
 ```sh
 wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; sudo -v; bash /tmp/install.sh
