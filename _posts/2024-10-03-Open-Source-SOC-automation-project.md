@@ -14,7 +14,7 @@ tags:
 **SOC Automation Project**: This project will implement a Security Operations Center with automated flow of events, alerts and active responses, in a local virtual environment with VMWare.
 <!--more-->
 
-> First notes published on 03/10/2024
+> PART 1️⃣ - First notes published on 03/10/2024
 {: .notice--info}
 
 # 1. Logical Diagram
@@ -23,16 +23,16 @@ tags:
 
 List of components that will be implemented:
 
-2. A **Windows 10 Client** with a Wazuh Agent that will send its security events and receive the active responses.
+1. A **Windows 10 Client** with a Wazuh Agent that will send its security events and receive the active responses.
 	- [Windows 10 ISO image creator](https://www.microsoft.com/en-us/software-download/windows10)
-3. **Sysmon** integration for Windows monitoring.
+2. **Sysmon** integration for Windows monitoring.
 	- [Sysmon Download](https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon)
 	- [sysmon.conf file](https://github.com/olafhartong/sysmon-modular/blob/master/sysmonconfig.xml)
-4. A **web server** in an Ubuntu 22.04 Server VM.
+3. A **web server** in an Ubuntu 22.04 Server VM.
 	- [Ubuntu 22.04 Download](https://www.releases.ubuntu.com/22.04/)
-5. A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
-6. Another Ubuntu 22.04 Server that will host **TheHive** for case management.
-7. **Shuffle.io** for workflow automation.
+4. A **Wazuh server** hosted in an **Ubuntu 22.04** VM that collects the events and sends the active responses.
+5. Another Ubuntu 22.04 Server that will host **TheHive** for case management.
+6. **Shuffle.io** for workflow automation.
 
 ![SOC Automation Project workflow](/assets/images/SOC-automation-project-workflow.png)
 
@@ -43,8 +43,10 @@ In VMWare, we need to configure a virtual network for our SOC environment.
 2. Configure a NAT network in an specific subnet:`192.168.200.0/24`.
 3. Give it a name: `SOC-NET`.
 All the machines should be set up on this network so they can communicate with each other.
+
 ## 2.2. Windows 10 Client - set up
 For the virtual machine, we'll create a Windows 10 ISO, which can be done through [this official tool](https://www.microsoft.com/en-us/software-download/windows10).
+
 1. Create a new virtual machine with the created ISO image. Associate the machine with the `SOC-NET` network.
 2. Start the machine and proceed with the installation.
 3. Check the machine's IP and network.
@@ -108,6 +110,7 @@ As Wazuh itself defines it, *"Wazuh is a security platform that provides unified
 ![Wazuh Server requirements](/assets/images/wazuh-requirements.png)
 
 For this project, we will install an Ubuntu 22.04 server with 4 vCPU, 8GiB RAM and 50 GB on disk memory. 
+
 1. If we didn't set up the static IP during installation, we can edit the network configuration file.
 ```sh
 cd /etc/netplan/
@@ -148,9 +151,11 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 > New notes added on 09/10/2024
 {: .notice--info}
 
-> Corrigendum
+> ⚠ Corrigendum
 > > TLDR: I had to reinstall TheHive because I missed the VM's requirements.
-> > **Explanation**: When I continued the project with the configuration of TheHive, I encountered many issues. After much troubleshooting, I realized the issue was the RAM dedicated to the VM. So I decided to reconsider the installation process because I overlooked that TheHive have their own installation script which "automates the process of fetching necessary components and configuring the system for optimal performance". 
+> > 
+> > **Explanation**: When I continued the project with the configuration of TheHive, I encountered many issues. After much troubleshooting, I realized the issue was the RAM dedicated to the VM. So I decided to reconsider the installation process because I overlooked that TheHive have their own installation script which "automates the process of fetching necessary components and configuring the system for optimal performance".
+> > 
 > ### Rejected previous notes on 09/10/2024
 >*2. We'll follow the basic [TheHive installation guide](https://docs.strangebee.com/thehive/installation/step-by-step-installation-guide/) As the installation process requires many steps, I've created a script with all the commands to install the dependencies, Java, Apache Cassandra, Elasticsearch and finally TheHive. The script is stored here: [install-thehive.sh](https://github.com/ayna-sec/ayna-sec.github.io/blob/master/scripts/install-thehive.sh). You can download it and execute it:*
 > ```shell
@@ -158,12 +163,13 @@ TheHive is a Security Incident Response Platform, and we'll install this on a di
 > sudo chmod +x install-thehive.sh
 > sudo ./install-thehive.sh
 > ```
+> 
 > > **The corrected process is described next**:
 {: .notice--warning}
 
-1. Install an Ubuntu 22.04 VM considering the requirementes (4 cores and 16 GB of RAM):
-
 ![thehive requirements](/assets/images/thehive-requirements)
+
+1. Install an Ubuntu 22.04 VM considering the requirementes (4 cores and 16 GB of RAM):
 	- *I deployed a new VM in VMWare with the hardware specifics and 45 GB of disk memory, just in case it needs that space.*
 	- *I also chose the graphical version because 16 GB of RAM was already a big stretch for my local machine, so I would use the browser inside the VM.*
 	- *During the Ubuntu installation I chose minimal install, so it would take less space.* 
@@ -200,6 +206,7 @@ wget -q -O /tmp/install.sh https://archives.strangebee.com/scripts/install.sh; s
 
 # 3. Wazuh Agents configuration
 After we've accessed Wazuh WUI (instructions on Section 2.3, step 4-5), we can add the Wazuh agents to our endpoints.
+
 1. Create Endpoint Groups to classify the different types.
 - Go to the sidebar menu and navigate to Endpoint Groups.
 
@@ -210,7 +217,8 @@ After we've accessed Wazuh WUI (instructions on Section 2.3, step 4-5), we can a
 3. Add the Windows 10 client machine.
 	- Make sure the VM is turned on.
 	- In the deployment page: select `MSI 32/64 bits`, enter the Wazuh server address, add a unique agent name for the Windows machine, select the corresponding groups, copy and paste the assembled command on step 4 into Windows PowerShell ran with administrator privileges.
-> Clipboard function in VMWare
+
+> ℹ️ Clipboard function in VMWare
 > If you can't copy and paste from/into a VM, click on `VM` in the menu > select `Install VMWare Tools...` > a notification should show up asking to do something with the `D:` drive, click on it > start the `set up` > install VMWare Tools.
 {: .notice--primary}
 
