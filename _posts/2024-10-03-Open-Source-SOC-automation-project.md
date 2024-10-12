@@ -1,5 +1,5 @@
 ---
-title: "Open source SOC automation project - Part 1"
+title: "Open source SOC automation project - status ongoing"
 show_date: true
 last_modified_at: 2024-10-12T18:46:02-05:00
 excerpt_separator: "<!--more-->" # use the separator on the post to create a manual excerpt
