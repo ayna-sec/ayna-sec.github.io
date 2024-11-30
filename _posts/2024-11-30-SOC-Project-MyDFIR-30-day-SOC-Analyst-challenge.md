@@ -555,7 +555,7 @@ Therefore, I attempted various ways to solve this.
 > ⚠️ TLDR: Uninstall from the Server Manager features. Skip to **attempt C** for detailed documentation. 
 {: .notice--success}
 
-<div class=.notice--danger>
+<div class=".notice--danger">
 >**> Attempt (A). Modify Defender policies:**
 > 
 > 1) If Defender was being controlled by the previous policies, then it's possible to disable the `Virus & threat protection`.
