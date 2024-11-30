@@ -552,11 +552,10 @@ I wasn't able to disable the features even if I was running the administrator ac
 
 Therefore, I attempted various ways to solve this.
 
-> [!important]
-> ⚠️ TLDR: Uninstall from the Server Manager features. Skip to **option C** for detailed documentation. 
+> ⚠️ TLDR: Uninstall from the Server Manager features. Skip to **attempt C** for detailed documentation. 
+{: .notice--success}
 
-
-> [!warning]
+<div class=.notice--danger>
 >**> Attempt (A). Modify Defender policies:**
 > 
 > 1) If Defender was being controlled by the previous policies, then it's possible to disable the `Virus & threat protection`.
@@ -588,9 +587,8 @@ Therefore, I attempted various ways to solve this.
 > 5) Restart the virtual machine.
 > 
 > 6) Not working. 🤷
-> {: .notice--warning}
+</div>
 
-> [!warning] 
 > **> Attempt (B). Edit Registry settings:**
 > 
 > 1) Access the `Registry Editor`.
@@ -1065,6 +1063,7 @@ nano osticket.conf
 ```
 
 - `osTicket.conf` content:
+
 ```sh
 <VirtualHost *:80>
 ServerName 178.62.255.213
@@ -1363,7 +1362,7 @@ To identify C2 activity, we have to investigation process creation and processes
 > - There we see the file `passwords.txt.txt` with sensitive information was opened.
 > - Also, there are multiple `netstat` and a `findstr` commands, which can be used to gather information.
 > - To investigate further and to be able to find the C2 activity, we'd need a software capturing the network traffic. But the correlated events should be enough to point to an establish Command & Control connection.  
->{: .notice--primary}
+{: .notice--primary}
 
 > [!note]
 > **Indicators of Compromise**
