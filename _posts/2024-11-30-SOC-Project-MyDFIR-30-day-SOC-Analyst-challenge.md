@@ -555,15 +555,13 @@ Therefore, I attempted various ways to solve this.
 > ⚠️ TLDR: Uninstall from the Server Manager features. Skip to **attempt C** for detailed documentation. 
 {: .notice--success}
 
-<div class=".notice--danger">
+---
+
 >**> Attempt (A). Modify Defender policies:**
 > 
 > 1) If Defender was being controlled by the previous policies, then it's possible to disable the `Virus & threat protection`.
-> 
 > 2) Access `Local Group Policy Editor`.
-> 
 > 3) Navigate to `Computer Configuration > Administrative Templates > Windows Components > Microsoft Defender Antivirus`.
-> 
 > 4) Modify these policies:
 > 
 > ```
@@ -585,16 +583,14 @@ Therefore, I attempted various ways to solve this.
 > ![](/assets/images/mydfir-challenge/disable-behavior-monitoring.png) 
 > 
 > 5) Restart the virtual machine.
-> 
 > 6) Not working. 🤷
-</div>
+
+---
 
 > **> Attempt (B). Edit Registry settings:**
 > 
 > 1) Access the `Registry Editor`.
-> 
 > 2) Navigate to `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows Defender`.
-> 
 > 3) Set key `DisableAntiSpyware` to `1`. If it does not exist, right-click and create new `DWORD (32-bit) Value`.
 > 
 > ![](/assets/images/mydfir-challenge/new-dword.png) 
@@ -616,6 +612,8 @@ Therefore, I attempted various ways to solve this.
 > ![](/assets/images/mydfir-challenge/security-alerts-defender-details.png) 
 > 
 > This also didn't work. Then I realized, I could do the next step.
+
+---
 
 **> Attempt (C). Remove Microsoft Defender Antivirus feature for Windows Server:**
 
@@ -732,7 +730,7 @@ Now the full attack process has been completed. Next step is analysing the gener
 
 1) First, we need to query for the related events to have a narrowed sight.
 
-> [!note]
+
 > 1. Query for events that include the binary file `svchost-angieyuliana2751.exe`
 > 2. Query for Sysmon Event ID 1, to find process creation events. This indicates the file has been executed.
 {: .notice--primary}
@@ -897,7 +895,6 @@ Process Information:
 	Process PID: 7,504
 ```
 
-> [!note]
 > **Timeline**
 > - `Nov 19, 2024 @ 19:01:23.461` - **Security Log Event ID 4688** - ServerManager.exe was launched.
 > - `Nov 19, 2024 @ 19:15:22.049` - **Sysmon Event ID 11** - `wmiprvse.exe` created a new configuration file `C:\Windows\System32\ServerManager\ComponentConfiguration\Windows-Defender.xml
@@ -906,7 +903,7 @@ Process Information:
 > - `Nov 19, 2024 @ 19:15:58.572` to `Nov 19, 2024 @ 19:15:59.743` - **Security Log Event ID 4660** - `pqexec.exe` deleted Windows Defender related files.
 > - `Nov 19, 2024 @ 19:16:00.239` to `Nov 19, 2024 @ 19:16:00.261` - **Sysmon Event ID 12** - multiple `Registry object added or deleted` events.
 > - `Nov 19, 2024 @ 19:16:18.028` - **SCM Event ID 7036** - final Microsoft Defender Antivirus Service stop.
-> {: .notice--primary}
+{: .notice--primary}
 
 Therefore, some the events that we can consider suspicious activity to track with a visualization are:
 - Deletion of Windows Defender registry keys.
@@ -1192,7 +1189,6 @@ rm -rf /var/www/html/osTicket/upload/setup
 
 3) Brute force attack investigation.
 
-> [!note] 
 > IP `36.189.253.173` 
 > User `root`
 > - Is this IP known to perform brute force activity?
@@ -1216,7 +1212,6 @@ rm -rf /var/www/html/osTicket/upload/setup
 > 	- No. Queried for `source.address:"36.189.253.173" and event.action : "ssh_login" and event.outcome : "success"` and no events were given.
 > - If so, what activity occurred after the successful login?
 > 	- Nothing.
-{: .notice--primary}
 
 
 ### Create alert ticket for brute force attempt
@@ -1278,7 +1273,6 @@ Same as before, to investigate an RDP brute force attack, we'll look into our RD
 
 ![](/assets/images/mydfir-challenge/rdp-alert-to-investigate.png) 
 
-> [!note]
 > - Is this IP known to perform brute force activity?
 > 	- No.
 > - How many brute force attempts there are related to this IP?
@@ -1334,7 +1328,6 @@ To identify C2 activity, we have to investigation process creation and processes
 
 ![](/assets/images/mydfir-challenge/initiated-network-connection.png) 
 
-> [!note]
 > - We see an odd process executed from the Public directory initiating an Internet connection.
 >	- Process: `C:\Users\Public\Downloads\svchost-angieyuliananaranjo2751.exe` - Destination: `128.199.50.62:80`.
 > - The `powershell.exe` process also makes 3 connections to this same IP through port `9999`.
@@ -1362,14 +1355,12 @@ To identify C2 activity, we have to investigation process creation and processes
 > - There we see the file `passwords.txt.txt` with sensitive information was opened.
 > - Also, there are multiple `netstat` and a `findstr` commands, which can be used to gather information.
 > - To investigate further and to be able to find the C2 activity, we'd need a software capturing the network traffic. But the correlated events should be enough to point to an establish Command & Control connection.  
-{: .notice--primary}
 
-> [!note]
 > **Indicators of Compromise**
 > - File: `C:\Users\Public\Downloads\svchost-angieyuliananaranjo.exe` with SHA1: `8916A1B67F942565EC651F3B2B728ED26E00574D`
 > - Outbound network connections: `128.199.50.62` through ports `9999` and `80`.
 > - Opened file with sensitive data `passwords.txt.txt`.
-> 
+{: .notice--primary}
 > **Timeline**
 > - `Nov 21, 2024 @ 13:38:11.917` - **Network connection** towards 128.199.50.62:9999.
 > - `Nov 21, 2024 @ 13:44:52.521` - **Network connection**  ...
@@ -1380,6 +1371,7 @@ To identify C2 activity, we have to investigation process creation and processes
 > - `Nov 21, 2024 @ 14:10:35.798` - **Process created** `powershell.exe` 
 > - `Nov 21, 2024 @ 14:33:38.558` - **Process created** `notepad.exe` opens `passwords.txt.txt`.
 > - `Nov 21, 2024 @ 15:01:02.923` - **Process terminated** `svchost-angieyuliananaranjo2751.exe`.
+{: .notice--primary}
 
 
 ### Create alert ticket for Mythic agent execution
