@@ -4,8 +4,8 @@ Hi! I'm Angie Yuliana. I’m a cybersecurity specialist on a learning journey. A
 🌐 [BLOG LINK](https://ayna-sec.github.io/)
 
 # Projects
-- [Open Source SOC Automation Project](https://github.com/ayna-sec/ayna-sec.github.io/blob/master/_posts/2024-10-03-Open-Source-SOC-automation-project.md) [🔛ONGOING]
-- [SOC Project - MyDFIR 30 day SOC Analyst Challenge](https://github.com/ayna-sec/ayna-sec.github.io/blob/master/_posts/2024-11-30-SOC-Project-MyDFIR-30-day-SOC-Analyst-challenge.md) [✅COMPLETED]
+- [Open Source SOC Automation Project](https://ayna-sec.github.io/blog/projects/Open-Source-SOC-automation-project/) [🔛ONGOING]
+- [SOC Project - MyDFIR 30 day SOC Analyst Challenge](https://ayna-sec.github.io/blog/projects/SOC-Project-MyDFIR-30-day-SOC-Analyst-challenge/) [✅COMPLETED]
 
 
 
